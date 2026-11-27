@@ -9,7 +9,8 @@ while (!salir)   // el menú se repite hasta elegir salir
     Console.WriteLine("2. Listar estudiantes");
     Console.WriteLine("3. Editar estudiante");
     Console.WriteLine("4. Eliminar estudiante");
-    Console.WriteLine("5. Buscar por nombre");    
+    Console.WriteLine("5. Buscar por nombre");
+    Console.WriteLine("6. Total de estudiantes");    
     Console.WriteLine("0. Salir");
     Console.Write("Opción: ");
 
@@ -32,7 +33,10 @@ while (!salir)   // el menú se repite hasta elegir salir
             break;
         case "5":
             Buscar();
-            break;                
+            break; 
+        case "6":
+            Total();
+            break;                       
         default:
             Console.WriteLine("Opción no válida.");
             break;
@@ -163,6 +167,11 @@ void Buscar()
     {
         Console.WriteLine($"{item.Id}. {item.Nombre} | {item.Matricula} | {item.Carrera}");
     }
+}
+
+void Total()
+{
+    Console.WriteLine($"Total de estudiantes: {estudiantes.Count}");
 }
 
 string Leer(string mensaje)
