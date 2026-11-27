@@ -10,7 +10,8 @@ while (!salir)   // el menú se repite hasta elegir salir
     Console.WriteLine("3. Editar estudiante");
     Console.WriteLine("4. Eliminar estudiante");
     Console.WriteLine("5. Buscar por nombre");
-    Console.WriteLine("6. Total de estudiantes");    
+    Console.WriteLine("6. Total de estudiantes");
+    Console.WriteLine("7. Filtrar por carrera");        
     Console.WriteLine("0. Salir");
     Console.Write("Opción: ");
 
@@ -36,7 +37,10 @@ while (!salir)   // el menú se repite hasta elegir salir
             break; 
         case "6":
             Total();
-            break;                       
+            break; 
+        case "7":
+            FiltrarPorCarrera();
+            break;                                  
         default:
             Console.WriteLine("Opción no válida.");
             break;
@@ -174,6 +178,16 @@ void Total()
     Console.WriteLine($"Total de estudiantes: {estudiantes.Count}");
 }
 
+void FiltrarPorCarrera()
+{
+    var carrera = LeerObligatorio("Carrera: ");
+    var encontrados = estudiantes.Where(s => s.Carrera.Equals(carrera, StringComparison.OrdinalIgnoreCase)).ToList();
+    if (encontrados.Count == 0) Console.WriteLine("No hay estudiantes en esa carrera.");
+    foreach (var item in encontrados)
+    {
+        Console.WriteLine($"{item.Id}. {item.Nombre} | {item.Matricula} | {item.Carrera}");
+    }
+}
 string Leer(string mensaje)
 {
     Console.Write(mensaje);
