@@ -8,6 +8,7 @@ while (!salir)   // el menú se repite hasta elegir salir
     Console.WriteLine("1. Agregar estudiante");
     Console.WriteLine("2. Listar estudiantes");
     Console.WriteLine("3. Editar estudiante");
+    Console.WriteLine("4. Eliminar estudiante");    
     Console.WriteLine("0. Salir");
     Console.Write("Opción: ");
 
@@ -25,6 +26,9 @@ while (!salir)   // el menú se repite hasta elegir salir
         case "0":
             salir = true;
             break;
+        case "4":
+            Eliminar();
+            break;        
         default:
             Console.WriteLine("Opción no válida.");
             break;
@@ -92,6 +96,23 @@ void Editar()
 
     Console.WriteLine("Estudiante actualizado.");
 }
+
+void Eliminar()
+{
+    var estudiante = BuscarPorId();   // reutiliza la búsqueda
+    if (estudiante == null) return;
+
+    var respuesta = Leer($"¿Eliminar a {estudiante.Nombre}? (s/n): ");
+    if (respuesta.ToLower() != "s")   // pide confirmación
+    {
+        Console.WriteLine("Operación cancelada.");
+        return;
+    }
+
+    estudiantes.Remove(estudiante);
+    Console.WriteLine("Estudiante eliminado.");
+}
+
 string Leer(string mensaje)
 {
     Console.Write(mensaje);
