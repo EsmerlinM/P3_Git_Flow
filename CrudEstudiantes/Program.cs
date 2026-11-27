@@ -40,9 +40,9 @@ void Agregar()
     var estudiante = new Estudiante
     {
         Id = siguienteId++,
-        Nombre = Leer("Nombre: "),
-        Matricula = Leer("Matrícula: "),
-        Carrera = Leer("Carrera: ")
+         Nombre = LeerObligatorio("Nombre: "),
+        Matricula = LeerMatricula(),
+        Carrera = LeerObligatorio("Carrera: ")
     };
     estudiantes.Add(estudiante);
     Console.WriteLine($"Estudiante agregado con ID {estudiante.Id}.");
@@ -89,7 +89,7 @@ void Editar()
     if (nombre != "") estudiante.Nombre = nombre;
 
     var matricula = Leer($"Matrícula ({estudiante.Matricula}): ");
-    if (matricula != "") estudiante.Matricula = matricula;
+    if (matricula != "" && MatriculaValida(matricula, estudiante.Id)) estudiante.Matricula = matricula;
 
     var carrera = Leer($"Carrera ({estudiante.Carrera}): ");
     if (carrera != "") estudiante.Carrera = carrera;
@@ -111,6 +111,44 @@ void Eliminar()
 
     estudiantes.Remove(estudiante);
     Console.WriteLine("Estudiante eliminado.");
+}
+
+string LeerObligatorio(string mensaje)
+{
+    var valor = Leer(mensaje);
+    while (valor == "")   // repite hasta que escriban algo
+    {
+        Console.WriteLine("Este campo es obligatorio.");
+        valor = Leer(mensaje);
+    }
+    return valor;
+}
+
+bool MatriculaValida(string matricula, int idActual)
+{
+    // formato: 4 números, guion, 4 números
+    if (!System.Text.RegularExpressions.Regex.IsMatch(matricula, @"^\d{4}-\d{4}$"))
+    {
+        Console.WriteLine("Formato inválido. Ejemplo: 2025-0912");
+        return false;
+    }
+    // no puede repetirse en otro estudiante
+    if (estudiantes.Any(e => e.Matricula == matricula && e.Id != idActual))
+    {
+        Console.WriteLine("Esa matrícula ya está registrada.");
+        return false;
+    }
+    return true;
+}
+
+string LeerMatricula()
+{
+    var matricula = LeerObligatorio("Matrícula (0000-0000): ");
+    while (!MatriculaValida(matricula, 0))
+    {
+        matricula = LeerObligatorio("Matrícula (0000-0000): ");
+    }
+    return matricula;
 }
 
 string Leer(string mensaje)
