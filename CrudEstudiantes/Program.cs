@@ -11,7 +11,8 @@ while (!salir)   // el menú se repite hasta elegir salir
     Console.WriteLine("4. Eliminar estudiante");
     Console.WriteLine("5. Buscar por nombre");
     Console.WriteLine("6. Total de estudiantes");
-    Console.WriteLine("7. Filtrar por carrera");        
+    Console.WriteLine("7. Filtrar por carrera");
+    Console.WriteLine("8. Listar ordenado por nombre");            
     Console.WriteLine("0. Salir");
     Console.Write("Opción: ");
 
@@ -40,7 +41,10 @@ while (!salir)   // el menú se repite hasta elegir salir
             break; 
         case "7":
             FiltrarPorCarrera();
-            break;                                  
+            break;
+        case "8":
+            ListarOrdenado();
+            break;                                              
         default:
             Console.WriteLine("Opción no válida.");
             break;
@@ -184,6 +188,15 @@ void FiltrarPorCarrera()
     var encontrados = estudiantes.Where(s => s.Carrera.Equals(carrera, StringComparison.OrdinalIgnoreCase)).ToList();
     if (encontrados.Count == 0) Console.WriteLine("No hay estudiantes en esa carrera.");
     foreach (var item in encontrados)
+    {
+        Console.WriteLine($"{item.Id}. {item.Nombre} | {item.Matricula} | {item.Carrera}");
+    }
+}
+
+void ListarOrdenado()
+{
+    if (estudiantes.Count == 0) Console.WriteLine("No hay estudiantes registrados.");
+    foreach (var item in estudiantes.OrderBy(s => s.Nombre))   // ordena de A a Z
     {
         Console.WriteLine($"{item.Id}. {item.Nombre} | {item.Matricula} | {item.Carrera}");
     }
