@@ -7,6 +7,7 @@ while (!salir)   // el menú se repite hasta elegir salir
     Console.WriteLine("\n=== Gestión de Estudiantes ===");
     Console.WriteLine("1. Agregar estudiante");
     Console.WriteLine("2. Listar estudiantes");
+    Console.WriteLine("3. Editar estudiante");
     Console.WriteLine("0. Salir");
     Console.Write("Opción: ");
 
@@ -17,6 +18,9 @@ while (!salir)   // el menú se repite hasta elegir salir
             break;
         case "2":
             Listar();
+            break;
+        case "3":
+            Editar();
             break;    
         case "0":
             salir = true;
@@ -52,6 +56,41 @@ void Listar()
     {
         Console.WriteLine($"{e.Id}. {e.Nombre} | {e.Matricula} | {e.Carrera}");
     }
+}
+
+Estudiante? BuscarPorId()
+{
+    if (!int.TryParse(Leer("ID del estudiante: "), out var id))   // ¿es un número?
+    {
+        Console.WriteLine("El ID debe ser un número.");
+        return null;
+    }
+
+    var estudiante = estudiantes.FirstOrDefault(e => e.Id == id);   // busca el ID
+    if (estudiante == null)
+    {
+        Console.WriteLine("No existe un estudiante con ese ID.");
+    }
+    return estudiante;
+}
+
+void Editar()
+{
+    var estudiante = BuscarPorId();
+    if (estudiante == null) return;
+
+    Console.WriteLine("Deja vacío para conservar el valor actual.");
+
+    var nombre = Leer($"Nombre ({estudiante.Nombre}): ");
+    if (nombre != "") estudiante.Nombre = nombre;
+
+    var matricula = Leer($"Matrícula ({estudiante.Matricula}): ");
+    if (matricula != "") estudiante.Matricula = matricula;
+
+    var carrera = Leer($"Carrera ({estudiante.Carrera}): ");
+    if (carrera != "") estudiante.Carrera = carrera;
+
+    Console.WriteLine("Estudiante actualizado.");
 }
 string Leer(string mensaje)
 {
